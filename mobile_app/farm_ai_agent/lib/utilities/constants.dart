@@ -1,0 +1,4 @@
+
+String kPhone="";
+
+String kSFBearer="";
