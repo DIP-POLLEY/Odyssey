@@ -1,4 +1,5 @@
 import 'package:farm_ai_agent/screens/Homescreen2.dart';
+import 'package:farm_ai_agent/screens/JobApplicationScreen.dart';
 import 'package:farm_ai_agent/screens/LiveChatScreen.dart';
 import 'package:farm_ai_agent/screens/homescreen.dart';
 import 'package:farm_ai_agent/screens/introform.dart';
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
         Homescreen.id: (context) => const Homescreen(),
         LiveChatPage.id: (context)=> const LiveChatPage(),
         HomeScreen2.id: (context)=> const HomeScreen2(),
-        SalesforceChatWidget.id: (context) => const SalesforceChatWidget()
+        SalesforceChatWidget.id: (context) => const SalesforceChatWidget(),
+        JobApplicationsScreen.id: (context) => JobApplicationsScreen(),
 
       },
     );

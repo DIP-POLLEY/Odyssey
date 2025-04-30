@@ -1,6 +1,9 @@
 
 
 
+import 'dart:async';
+
+import 'package:farm_ai_agent/screens/JobApplicationScreen.dart';
 import 'package:farm_ai_agent/screens/LiveChatScreen.dart';
 import 'package:farm_ai_agent/screens/loginscreen.dart';
 import 'package:farm_ai_agent/screens/splashscreen.dart';
@@ -8,7 +11,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../models/JobApplications.dart';
+import '../models/JobListings.dart';
+import '../utilities/SFGetJobApplications.dart';
+import '../utilities/SFGetJobListings.dart';
 import '../utilities/storeLocalDetails.dart';
+import '../widgets/JobCard.dart';
 
 class Homescreen extends StatefulWidget {
   static const String id = 'homescreen';
@@ -22,6 +30,9 @@ class Homescreen extends StatefulWidget {
 class _HomescreenState extends State<Homescreen> {
 
   late final WebViewController _controller;
+  late Future<List<JobListing>> _futureJobs;
+  late Future<List<JobApplication>> _futureApplications;
+
   String  name='';
   String usertype='';
 
@@ -39,11 +50,23 @@ class _HomescreenState extends State<Homescreen> {
     });
   }
   Future<void> updateusertype() async {
-    String ut = await readData('Name');
+    String ut = await readData('UserType');
     setState(() {
       usertype = ut;
     });
   }
+
+  late Timer _timer;
+  String _currentTime = '';
+
+
+  void _updateTime() {
+    setState(() {
+      _currentTime = DateTime.now().toLocal().toString();
+      _futureJobs = getJobListings();
+    });
+  }
+
 
   @override
   void initState() {
@@ -51,6 +74,15 @@ class _HomescreenState extends State<Homescreen> {
     super.initState();
     updatename();
     updateusertype();
+
+    _futureApplications = getJobApplications();
+    _updateTime(); // Initial time display
+
+    // Start timer to update every 20 seconds
+    _timer = Timer.periodic(Duration(seconds: 20), (Timer t) {
+      _updateTime(); // Trigger rebuild with new data
+      print('check');
+    });
   }
 
   @override
@@ -71,10 +103,18 @@ class _HomescreenState extends State<Homescreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                IconButton(
-                    onPressed: (){},
-                    icon: Icon(Icons.call)
-                ),
+                // usertype == 'Farmer'?IconButton(
+                //     onPressed: (){
+                //       Navigator.push(
+                //         context,
+                //         MaterialPageRoute(builder: (context) => JobApplicationsScreen()),
+                //       );
+                //     },
+                //     icon: Icon(Icons.add_alert)
+                // ):
+                // SizedBox(
+                //   width: 0,
+                // ),
                 IconButton(
                     onPressed: (){
                       Navigator.pop(context);
@@ -108,55 +148,26 @@ class _HomescreenState extends State<Homescreen> {
               ],
             ),
           ),
-          body: ListView(
-            children: [
-              //Container(child: WebViewWidget(controller: _controller)),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Card(
-                  color: Colors.green,
-                  child: Container(
-                    //height: MediaQuery.of(context).size.height/6,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                              'Job Type: Sowing',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white
-                            ),
-                          ),
-                          Text(
-                            'No. of workers needed: 12',
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white
-                            ),
-                          ),
-                          Text(
-                            'Amount /day: Rs.400',
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white
-                            ),
-                          ),
-                          Text(
-                            'Location: Whitefield',
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            ],
+          body: FutureBuilder<List<JobListing>>(
+            future: _futureJobs,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text("Error: ${snapshot.error}"));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Center(child: Text("You have not created job listings. \nCreate a Job Listing from chat icon below."));
+              }
+
+              final jobs = snapshot.data!;
+              return ListView.builder(
+                itemCount: jobs.length,
+                itemBuilder: (context, index) {
+                  return JobCard(job: jobs[index]);
+                },
+              );
+            },
+
           ),
         ),
       ),
