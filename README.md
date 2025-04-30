@@ -10,13 +10,11 @@ Use case: Farmers often struggle to find reliable labor for seasonal work, leadi
 
 # Technical Details
 
-Mobile App: Farm AI  
-Mobile app –   Flutter open-source framework, used Drat language   
-Salesforce:  Agentforce,Topics, Actions  
-Omni-Channel: Used Configure agent in mobile application,Routing Configurations, Messaging Settings  
-
-# Data Cloud 
-Currently syncing all data-to-data cloud, future enhancement is that we will directly store Registration, Job postings and Job application data in data cloud and retrieve from data cloud.  
+1. Mobile App: Farm AI  
+2. Mobile app –   Flutter open-source framework, used Drat language   
+3. Salesforce:  Agentforce,Topics, Actions  
+4. Omni-Channel: Used Configure agent in mobile application,Routing Configurations, Messaging Settings
+5. Data Cloud: Currently syncing all data-to-data cloud.
 
 # Estimated ROI 
 
