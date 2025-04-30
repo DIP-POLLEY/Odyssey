@@ -17,13 +17,13 @@ Omni-Channel: Used Configure agent in mobile application,Routing Configurations,
 
 # Data Cloud 
 Currently syncing all data-to-data cloud, future enhancement is that we will directly store Registration, Job postings and Job application data in data cloud and retrieve from data cloud.  
-Estimated ROI 
 
-# Employed in the agriculture sector in India : 150 million 
+# Estimated ROI 
 
-The average daily wage for laborers in India: 200 ₹ 
-In 2021-22, the Gross Value Added (GVA) for the agriculture, forestry, and fishing sector in India was estimated at Rs 40.66 lakh crore. A significant portion of the Indian workforce (46%) is employed in agriculture, though this sector contributes only about 18% to the country's Gross Domestic Product (GDP) 
-ROI: It will generate 4 Lakh core business value if this app use by 10% of agriculture labors  
+1. Employed in the agriculture sector in India : 150 million 
+2. The average daily wage for laborers in India: 200 ₹ 
+3. In 2021-22, the Gross Value Added (GVA) for the agriculture, forestry, and fishing sector in India was estimated at Rs 40.66 lakh crore. A significant portion of the Indian workforce (46%) is employed in agriculture, though this sector contributes only about 18% to the country's Gross Domestic Product (GDP)
+4. ROI: It will generate 4 Lakh core business value if this app use by 10% of agriculture labors  
 
 
 # Future Enhancement and scope 
